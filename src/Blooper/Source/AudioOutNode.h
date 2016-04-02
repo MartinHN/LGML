@@ -43,9 +43,9 @@ public:
 
     AudioOutNode(NodeManager * nodeManager,uint32 nodeId)  : NodeBase(nodeManager,nodeId,"AudioOutNode",new AudioOutProcessor){};
     ~AudioOutNode(){};
-
+#if !HEADLESS
     virtual NodeBaseUI * createUI() override;
-
+#endif
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioOutNode)
 };

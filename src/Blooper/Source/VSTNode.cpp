@@ -12,11 +12,12 @@
 
 #include "NodeManager.h"
 
+
+
+#if !HEADLESS
 #include "VSTNodeUI.h"
-
-
 NodeBaseUI * VSTNode::createUI(){return new NodeBaseUI(this,new VSTNodeUI(this));}
-
+#endif
 
 VSTNode::VSTNode(NodeManager * nodeManager,uint32 nodeId) :
 NodeBase(nodeManager,nodeId,"VST",new VSTProcessor(this)),blockFeedback(false){
@@ -26,7 +27,9 @@ NodeBase(nodeManager,nodeId,"VST",new VSTProcessor(this)),blockFeedback(false){
 
 
 VSTNode::~VSTNode(){
+    #if !HEADLESS
     PluginWindow::closeCurrentlyOpenWindowsFor (this);
+#endif
 }
 
 
@@ -34,6 +37,8 @@ void VSTNode::generatePluginFromDescription(PluginDescription * desc){
     VSTProcessor * vstProcessor = dynamic_cast<VSTProcessor*>(audioProcessor);
     vstProcessor->generatePluginFromDescription(desc);
 }
+
+#if !HEADLESS
 void  VSTNode::createPluginWindow(){
     if (PluginWindow* const w = PluginWindow::getWindowFor (this))
         w->toFront (true);
@@ -43,6 +48,7 @@ void  VSTNode::createPluginWindow(){
 void VSTNode::closePluginWindow(){
     PluginWindow::closeCurrentlyOpenWindowsFor (this);
 }
+#endif
 
 void VSTNode::parameterValueChanged(Parameter * p) {
     if(p==identifierString){

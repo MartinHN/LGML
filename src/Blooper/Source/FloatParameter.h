@@ -43,10 +43,10 @@ public:
     {
         return jmap<float>(value, minValue, maxValue, 0, 1);
     }
-
+#if !HEADLESS
     FloatSliderUI * createSlider();
     ControllableUI * createDefaultControllableEditor() override;
-
+#endif
     String toString() override{return String(value);}
     void fromString(const String & s,bool silentSet = false, bool force = false) override{setValue(s.getFloatValue(),silentSet,force);};
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FloatParameter)

@@ -9,8 +9,19 @@
 */
 
 #include "OSCDirectController.h"
-#include "OSCDirectControllerContentUI.h"
+
 #include "NodeManager.h"
+
+
+#if !HEADLESS
+#include "OSCDirectControllerContentUI.h"
+ControllerUI * OSCDirectController::createUI()
+{
+    return new ControllerUI(this, new OSCDirectControllerContentUI());
+}
+#endif
+
+
 
 OSCDirectController::OSCDirectController() :
     OSCController("OSC Direct Controller")
@@ -96,10 +107,7 @@ void OSCDirectController::processMessage(const OSCMessage & msg)
     }
 }
 
-ControllerUI * OSCDirectController::createUI()
-{
-    return new ControllerUI(this, new OSCDirectControllerContentUI());
-}
+
 
 void OSCDirectController::controllableAdded(Controllable *)
 {

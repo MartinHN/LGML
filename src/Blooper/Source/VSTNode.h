@@ -15,7 +15,9 @@
 #include "VSTManager.h"
 #include "NodeBase.h"
 
+#if !HEADLESS
 #include "PluginWindow.h"
+#endif
 
 AudioDeviceManager& getAudioDeviceManager();
 
@@ -48,8 +50,10 @@ public:
         BoolParameter * isDisplayed;
     };
     PluginWindowParameters pluginWindowParameter;
+#if !HEADLESS
     void createPluginWindow();
     void closePluginWindow();
+#endif
 
     void parameterValueChanged(Parameter * p) override;
 
@@ -74,8 +78,12 @@ public:
         ~VSTProcessor(){}
 
         AudioProcessorEditor * createEditor()override{
+#if !HEADLESS
             if(innerPlugin)return innerPlugin->createEditor();
                 else return nullptr;
+#else
+                    return nullptr;
+#endif
         }
 
         void generatePluginFromDescription(PluginDescription * desc){
@@ -133,8 +141,10 @@ public:
         VSTNode * owner;
         ScopedPointer<AudioPluginInstance> innerPlugin;
     };
-    NodeBaseUI * createUI()override;
 
+#if !HEADLESS
+    NodeBaseUI * createUI()override;
+#endif
     bool blockFeedback;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(VSTNode)

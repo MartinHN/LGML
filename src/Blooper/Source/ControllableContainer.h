@@ -84,9 +84,11 @@ public:
     // Inherited via Trigger::Listener
     virtual void triggerTriggered(Trigger * p) override;
 
+
+#if !HEADLESS
     // can be overriden if custom editor wanted
     virtual Component * createControllableContainerEditor();
-
+#endif
 
 
 private:

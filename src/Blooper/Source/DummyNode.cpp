@@ -9,8 +9,14 @@
 */
 
 #include "DummyNode.h"
+
+#if !HEADLESS
 #include "NodeBaseUI.h"
 #include "DummyNodeContentUI.h"
+NodeBaseUI * DummyNode::createUI(){NodeBaseUI * ui = new NodeBaseUI(this,new DummyNodeContentUI());return ui;
+
+}
+#endif
 
 DummyNode::DummyNode(NodeManager * nodeManager,uint32 nodeId) :
     NodeBase(nodeManager,nodeId, "DummyNode", new DummyAudioProcessor, new DummyDataProcessor)
@@ -41,10 +47,3 @@ DummyNode::DummyNode(NodeManager * nodeManager,uint32 nodeId) :
      }
  }
 
- NodeBaseUI * DummyNode::createUI()
-{
-
-    NodeBaseUI * ui = new NodeBaseUI(this,new DummyNodeContentUI());
-    return ui;
-
-}

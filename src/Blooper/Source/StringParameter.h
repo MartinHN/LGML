@@ -28,10 +28,10 @@ public:
         this->value = _value;
         if (!silentSet) notifyValueChanged();
     }
-
+#if !HEADLESS
     StringParameterUI * createStringParameterUI();
-
     ControllableUI* createDefaultControllableEditor()override;
+#endif
     String toString()override {return value;}
     void fromString(const String & s,bool silentSet = false, bool force = false) override{setValue(s,silentSet,force);};
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StringParameter)

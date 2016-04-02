@@ -256,7 +256,7 @@ void ControllableContainer::addParameterInternal(Parameter * p)
     controllableContainerListeners.call(&ControllableContainer::Listener::controllableAdded, p);
 }
 
-
+#if !HEADLESS
 Component * ControllableContainer::createControllableContainerEditor(){
     ControllableContainerEditor * editor = new ControllableContainerEditor(this,nullptr);
     Rectangle<int> bounds;
@@ -288,3 +288,5 @@ Component * ControllableContainer::createControllableContainerEditor(){
     return editor;
     
 }
+
+#endif

@@ -43,9 +43,9 @@ public:
 
     AudioInNode(NodeManager * nodeManager,uint32 nodeId)  : NodeBase(nodeManager,nodeId,"AudioInNode",new AudioInProcessor){};
     ~AudioInNode(){};
-
+#if !HEADLESS
     virtual NodeBaseUI * createUI() override;
-
+#endif
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioInNode)
 };

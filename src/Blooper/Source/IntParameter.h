@@ -43,8 +43,10 @@ public:
 
     String toString() override{return String(value);}
     void fromString(const String & s,bool silentSet = false, bool force = false) override{setValue(s.getIntValue(),silentSet,force);};
+#if !HEADLESS
     IntSliderUI * createSlider();
     ControllableUI * createDefaultControllableEditor()override;
+#endif
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(IntParameter)
 };
 

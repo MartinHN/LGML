@@ -9,6 +9,10 @@
 */
 
 #include "AudioMixerNode.h"
+
+
+
+#if !HEADLESS
 #include "NodeBaseUI.h"
 
 NodeBaseUI * AudioMixerNode::createUI()
@@ -18,3 +22,4 @@ NodeBaseUI * AudioMixerNode::createUI()
     return ui;
 
 }
+#endif

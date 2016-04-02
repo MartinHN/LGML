@@ -9,6 +9,8 @@
 */
 
 #include "AudioInNode.h"
+
+#if !HEADLESS
 #include "NodeBaseUI.h"
 
 NodeBaseUI * AudioInNode::createUI() {
@@ -16,3 +18,4 @@ NodeBaseUI * AudioInNode::createUI() {
     return ui;
 
 }
+#endif

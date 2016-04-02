@@ -88,9 +88,11 @@ public:
 
     String getControlAddress();
 
+
+#if !HEADLESS
     // used for generating editor
     virtual ControllableUI * createDefaultControllableEditor() = 0;
-
+#endif
 
 public:
     class  Listener

@@ -87,8 +87,9 @@ public:
             };
             TrackState trackState;
             static String trackStateToString(const TrackState & ts);
+#if !HEADLESS
             Component * createControllableContainerEditor()override;
-
+#endif
             void setTrackState(TrackState state);
             // from events like UI
             void askForSelection(bool isSelected);
@@ -228,8 +229,9 @@ public:
 
 
     Looper * looper;
+#if !HEADLESS
     NodeBaseUI * createUI() override;
-
+#endif
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LooperNode)
 };
 

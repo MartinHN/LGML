@@ -10,13 +10,10 @@
 
 #include "Trigger.h"
 
+
+#if !HEADLESS
 #include "TriggerButtonUI.h"
 #include "TriggerBlinkUI.h"
-
-Trigger::Trigger(const String & niceName, const String &description, bool enabled) :
-Controllable(TRIGGER, niceName, description, enabled)
-{
-}
 
 TriggerButtonUI * Trigger::createButtonUI()
 {
@@ -29,4 +26,12 @@ TriggerBlinkUI * Trigger::createBlinkUI()
 }
 ControllableUI * Trigger::createDefaultControllableEditor(){
     return createBlinkUI();
+}
+
+#endif
+
+
+Trigger::Trigger(const String & niceName, const String &description, bool enabled) :
+Controllable(TRIGGER, niceName, description, enabled)
+{
 }

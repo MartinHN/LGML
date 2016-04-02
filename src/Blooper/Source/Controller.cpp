@@ -9,7 +9,7 @@
 */
 
 #include "Controller.h"
-#include "ControllerUI.h"
+
 
 Controller::Controller(const String &name) :
     ControllableContainer(name)
@@ -24,12 +24,13 @@ Controller::Controller(const String &name) :
 Controller::~Controller()
 {
 }
-
+#if !HEADLESS
+#include "ControllerUI.h"
 ControllerUI * Controller::createUI()
 {
     return new ControllerUI(this);
 }
-
+#endif
 void Controller::remove()
 {
     listeners.call(&Controller::Listener::askForRemoveController, this);

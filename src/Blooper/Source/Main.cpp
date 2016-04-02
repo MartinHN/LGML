@@ -11,8 +11,13 @@
 #include "JuceHeader.h"
 #include "MainComponent.h"
 
-MainContentComponent* createMainContentComponent(Engine* e);
+#ifndef HEADLESS
+#define HEADLESS 0
+#endif
 
+#if !HEADLESS
+MainContentComponent* createMainContentComponent(Engine* e);
+#endif
 //==============================================================================
 class BlooperApplication  : public JUCEApplication
 {
@@ -40,15 +45,19 @@ public:
         DBG(commandLine);
         
         engine = new Engine();
-
+#if !HEADLESS
         mainWindow = new MainWindow (getApplicationName(),engine);
+#endif
     }
 
     void shutdown() override
     {
         // Add your application's shutdown code here..
+        
         engine = nullptr;
+#if !HEADLESS
         mainWindow = nullptr; // (deletes our window)
+#endif
     }
 
     //==============================================================================
@@ -65,6 +74,10 @@ public:
         // this method is invoked, and the commandLine parameter tells you what
         // the other instance's command-line arguments were.
     }
+
+
+
+    #if !HEADLESS
 
     //==============================================================================
     /*
@@ -86,7 +99,7 @@ public:
             centreWithSize (getWidth(), getHeight());
             setVisible (true);
 
-			#if JUCE_WINDOWS
+			#if JUCE_WINDOWS || JUCE_LINUX
 				setMenuBar(mainComponent);
 			#endif
         }
@@ -109,6 +122,9 @@ public:
     private:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainWindow)
     };
+    ScopedPointer<MainWindow> mainWindow;
+
+#endif
 
     ApplicationCommandManager commandManager;
     ScopedPointer<ApplicationProperties> appProperties;
@@ -117,7 +133,7 @@ public:
 
     ScopedPointer<Engine> engine;
 private:
-    ScopedPointer<MainWindow> mainWindow;
+
 
 };
 

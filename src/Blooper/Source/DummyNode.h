@@ -59,9 +59,9 @@ public:
     Trigger * testTrigger;
 
     void parameterValueChanged(Parameter * p) override;
-
+#if !HEADLESS
     virtual NodeBaseUI * createUI() override;
-
+#endif
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DummyNode)
 };

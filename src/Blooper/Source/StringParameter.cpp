@@ -9,7 +9,6 @@
 */
 
 #include "StringParameter.h"
-#include "StringParameterUI.h"
 
 
 StringParameter::StringParameter(const String & niceName, const String &description, const String & initialValue, bool enabled) :
@@ -18,6 +17,9 @@ StringParameter::StringParameter(const String & niceName, const String &descript
     setValue(initialValue);
 
 }
+
+#if !HEADLESS
+#include "StringParameterUI.h"
 
 StringParameterUI * StringParameter::createStringParameterUI()
 {
@@ -28,3 +30,4 @@ StringParameterUI * StringParameter::createStringParameterUI()
 ControllableUI* StringParameter::createDefaultControllableEditor(){
     return createStringParameterUI();
 };
+#endif

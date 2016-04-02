@@ -5,6 +5,8 @@
  #include "../../../../../../../../../Dev/JUCE/modules/juce_audio_basics/juce_audio_basics.h"
 #elif defined (JUCER_VS2015_78A5022)
  #include "D:\Softwares\Juce 4.1.0\JUCE\modules\juce_audio_basics\juce_audio_basics.h"
+#elif defined (JUCER_LINUX_MAKE_6D53C8B4)
+ #include "../../../../../../../../../Dev/JUCE/modules/juce_audio_basics/juce_audio_basics.h"
 #else
  #error "This file is designed to be used in an Introjucer-generated project!"
 #endif

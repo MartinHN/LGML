@@ -10,8 +10,16 @@
 
 #include "LooperNode.h"
 #include "TimeManager.h"
-
+#if !HEADLESS
 #include "LooperNodeUI.h"
+
+Component * LooperNode::Looper::Track::createControllableContainerEditor(){
+    return nullptr;
+}
+
+NodeBaseUI * LooperNode::createUI(){return new NodeBaseUI(this, new LooperNodeUI);}
+
+#endif
 
 LooperNode::LooperNode(NodeManager * nodeManager,uint32 nodeId) :NodeBase(nodeManager,nodeId,"Looper",new Looper(this)) {
     looper = dynamic_cast<Looper*>(audioProcessor);
@@ -546,9 +554,3 @@ void LooperNode::Looper::Track::cleanAllQuantizeNeedles(){
     quantizedRecordStart = -1;
 }
 
-
-Component * LooperNode::Looper::Track::createControllableContainerEditor(){
-    return nullptr;
-}
-
-NodeBaseUI * LooperNode::createUI(){return new NodeBaseUI(this, new LooperNodeUI);}

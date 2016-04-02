@@ -11,13 +11,17 @@
 #ifndef ENGINE_H_INCLUDED
 #define ENGINE_H_INCLUDED
 
-//#include "JuceHeader.h"
+#include "JuceHeader.h"
 
 
 #include "ControlManager.h"
 #include "TimeManager.h"
 #include "NodeManager.h"
 #include "VSTManager.h"
+#include "../../../../../../../Dev/JUCE/modules/juce_gui_extra/documents/juce_FileBasedDocument.h"
+#include "../../../../../../../Dev/JUCE/modules/juce_audio_utils/players/juce_AudioProcessorPlayer.h"
+#include "../../../../../../../Dev/JUCE/modules/juce_gui_extra/misc/juce_RecentlyOpenedFilesList.h"
+
 
 class Engine:public FileBasedDocument{
 public:
@@ -60,7 +64,15 @@ public:
     void restoreFromXml(const XmlElement &);
     void createNodeFromXml (const XmlElement& xml);
     
-    
+    class EngineListener{
+        virtual ~EngineListener();
+//        virtual void engineStarted() = 0;
+        virtual void engineKilled() = 0;
+    };
+
+    ListenerList<EngineListener> engineListeners;
+    void addEngineListener(EngineListener * e){engineListeners.add(e);}
+    void removeEngineListener(EngineListener * e){engineListeners.remove(e);}
 
 };
 

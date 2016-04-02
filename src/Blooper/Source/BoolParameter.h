@@ -34,10 +34,11 @@ public:
     {
         return value ? 1.f : 0.f;
     }
-
+#if !HEADLESS
     //ui creation
     BoolToggleUI * createToggle();
     ControllableUI * createDefaultControllableEditor()override ;
+#endif
     String toString() override{return String(value);}
     void fromString(const String & s,bool silentSet = false, bool force = false) override{setValue(s.getIntValue()!=0,silentSet,force);};
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BoolParameter)

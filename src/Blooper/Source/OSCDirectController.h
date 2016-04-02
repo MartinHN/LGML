@@ -19,9 +19,9 @@ public:
     OSCDirectController();
 
     void processMessage(const OSCMessage &msg) override;
-
+#if !HEADLESS
     ControllerUI * createUI() override;
-
+#endif
     // Inherited via Listener
     virtual void controllableAdded(Controllable * c) override;
     virtual void controllableRemoved(Controllable * c) override;

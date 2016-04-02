@@ -9,13 +9,16 @@
 */
 
 #include "BoolParameter.h"
-#include "BoolToggleUI.h"
 
 BoolParameter::BoolParameter(const String & niceName, const String &description, const bool & initialValue, bool enabled) :
     Parameter(Type::BOOL, niceName, description, enabled)
 {
     setValue(initialValue);
 }
+
+
+#if !HEADLESS
+#include "BoolToggleUI.h"
 
 BoolToggleUI * BoolParameter::createToggle()
 {
@@ -24,3 +27,4 @@ BoolToggleUI * BoolParameter::createToggle()
 
 
 ControllableUI * BoolParameter::createDefaultControllableEditor() {return createToggle();}
+#endif

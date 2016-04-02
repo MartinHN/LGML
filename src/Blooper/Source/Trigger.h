@@ -23,10 +23,11 @@ public:
     ~Trigger() {}
 
 
-
+#if !HEADLESS
     TriggerButtonUI * createButtonUI();
     TriggerBlinkUI * createBlinkUI();
     ControllableUI * createDefaultControllableEditor()override;
+#endif
 
     void trigger()
     {

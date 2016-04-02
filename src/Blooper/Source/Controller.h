@@ -29,9 +29,9 @@ public:
 
     void remove(); //will dispatch askForRemoveController
     virtual void parameterValueChanged(Parameter * p) override;
-
+#if !HEADLESS
     virtual ControllerUI * createUI();
-
+#endif
     class  Listener
     {
     public:

@@ -59,9 +59,10 @@ public:
         DBG("to implement");
         jassertfalse;}
 
-
+#if !HEADLESS
     ControllableUI * createDefaultControllableEditor()override{return nullptr;};
-
+#endif
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FloatRangeParameter)
 };
 
