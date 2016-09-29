@@ -176,7 +176,7 @@ void NodeBase::processBlock(AudioBuffer<float>& buffer,
   if (rmsListeners.size() || rmsChannelListeners.size()) {
     curSamplesForRMSInUpdate += numSample;
     if (curSamplesForRMSInUpdate >= samplesBeforeRMSUpdate) {
-      updateRMS(true,buffer, globalRMSValueIn,rmsValuesIn,rmsChannelListeners.size()==0);
+		updateRMS(true, buffer, globalRMSValueIn, rmsValuesIn);// , rmsChannelListeners.size() == 0);
       curSamplesForRMSInUpdate = 0;
     }
   }
@@ -207,15 +207,15 @@ void NodeBase::processBlock(AudioBuffer<float>& buffer,
       if(fadeValue!=1){crossFadeBuffer.makeCopyOf(buffer);}
       processBlockInternal(buffer, midiMessages);
       if(fadeValue!=1 || hasMainAudioControl){
-        buffer.applyGainRamp(0, numSample, lastVolume, curVolume);
+        buffer.applyGainRamp(0, numSample,lastVolume, (float)curVolume);
       }
       if(fadeValue!=1){
         for(int i = 0 ; i < getTotalNumOutputChannels() ; i++){
-          buffer.addFromWithRamp(i, 0, crossFadeBuffer.getReadPointer(i), numSample, lastDryVolume,curDryVolume);
+          buffer.addFromWithRamp(i, 0, crossFadeBuffer.getReadPointer(i), numSample, (float)lastDryVolume, (float)curDryVolume);
         }
       }
     }
-    lastVolume = curVolume;
+    lastVolume = (float)curVolume;
     lastDryVolume = curDryVolume;
 
   }
@@ -233,8 +233,8 @@ void NodeBase::processBlock(AudioBuffer<float>& buffer,
   if (rmsListeners.size() || rmsChannelListeners.size()) {
     curSamplesForRMSOutUpdate += numSample;
     if (curSamplesForRMSOutUpdate >= samplesBeforeRMSUpdate) {
-      updateRMS(false,buffer, globalRMSValueOut,rmsValuesOut,rmsChannelListeners.size()==0);
-      curSamplesForRMSOutUpdate = 0;
+		updateRMS(false, buffer, globalRMSValueOut, rmsValuesOut);// , rmsChannelListeners.size() == 0);
+		curSamplesForRMSOutUpdate = 0;
     }
   }
 
@@ -316,59 +316,43 @@ bool NodeBase::setPreferedNumAudioOutput(int num) {
   return true;
 }
 
-void NodeBase::updateRMS(bool isInput,const AudioBuffer<float>& buffer, float &targetRmsValue, Array<float> &targetRMSChannelValues,bool skipChannelComputation) {
+void NodeBase::updateRMS(bool isInput,const AudioBuffer<float>& buffer, float &targetRmsValue, Array<float> &targetRMSChannelValues) {
   int numSamples = buffer.getNumSamples();
   int numChannels = jmin((isInput?getTotalNumInputChannels():getTotalNumOutputChannels()),buffer.getNumChannels());
   if(targetRMSChannelValues.size()!=numChannels)
     targetRMSChannelValues.resize(numChannels);
 
-#ifdef HIGH_ACCURACY_RMS
-  for (int i = numSamples - 64; i >= 0; i -= 64) {
-    rmsValue += alphaRMS * (buffer.getRMSLevel(0, i, 64) - rmsValue);
-  }
-#else
-  // faster implementation taken from juce Device Settings input meter
+	#ifdef HIGH_ACCURACY_RMS
+	  for (int i = numSamples - 64; i >= 0; i -= 64) {
+		rmsValue += alphaRMS * (buffer.getRMSLevel(0, i, 64) - rmsValue);
+	  }
+	#else
+   // faster implementation taken from juce Device Settings input meter
 
-  float globalS = 0;
+	float globalS = 0;
 
-  // @ben we need that (window of 64 sample cannot describe any accurate RMS level alone thus decay factor)
-  const double decayFactor = 0.95;
-  const float lowThresh = 0.0001f;
+	// @ben we need that (window of 64 sample cannot describe any accurate RMS level alone thus decay factor)
+	const double decayFactor = 0.95;
+	const float lowThresh = 0.0001f;
 
-  if(skipChannelComputation){
-    for (int i = numChannels - 1; i >= 0; --i)
-    {
+  
+	for (int i = numChannels - 1; i >= 0; --i)
+	{
 
-      float s = 0;
-      Range<float> minMax = FloatVectorOperations::findMinAndMax(buffer.getReadPointer(i), numSamples);
-      s = jmax(s,-minMax.getStart());
-      s = jmax(s,minMax.getEnd());
-      globalS = jmax(s, globalS);
-    }
-  }
-  else{
-    for (int i = numChannels - 1; i >= 0; --i)
-    {
+		float s = 0;
+		Range<float> minMax = FloatVectorOperations::findMinAndMax(buffer.getReadPointer(i), numSamples);
+		s = jmax(s,-minMax.getStart());
+		s = jmax(s,minMax.getEnd());
+		globalS = jmax(s, globalS);
 
-      float s = 0;
-      Range<float> minMax = FloatVectorOperations::findMinAndMax(buffer.getReadPointer(i), numSamples);
-      s = jmax(s,-minMax.getStart());
-      s = jmax(s,minMax.getEnd());
-      targetRMSChannelValues.set(i, (s>targetRMSChannelValues.getUnchecked(i))?s:
-                                 s>lowThresh?targetRMSChannelValues.getUnchecked(i)*(float)decayFactor:
-                                 0);
+		//if (!skipChannelComputation) {
+			targetRMSChannelValues.set(i, (s > targetRMSChannelValues.getUnchecked(i)) ? s : s > lowThresh ? targetRMSChannelValues.getUnchecked(i)*(float)decayFactor : 0);
+		//}
+	}
 
-      globalS = jmax(s, globalS);
-    }
-  }
-
-  if (globalS > targetRmsValue)
-    targetRmsValue = globalS;
-  else if (targetRmsValue > lowThresh)
-    targetRmsValue *= (float)decayFactor;
-  else
-    targetRmsValue = 0;
-
+	if (globalS > targetRmsValue) targetRmsValue = globalS;
+	else if (targetRmsValue > lowThresh) targetRmsValue *= (float)decayFactor;
+	else targetRmsValue = 0;
 
 #endif
 

@@ -39,15 +39,17 @@ lastVolume(0)
 
 
   selectTrig = addTrigger("Select", "Select this track");
-  recPlayTrig = addTrigger("Rec Or Play", "Tells the track to wait for the next bar and then start record or play");
+  recPlayTrig = addTrigger("Rec/Play", "Tells the track to wait for the next bar and then start record or play");
   playTrig = addTrigger("Play", "Tells the track to wait for the next bar and then stop recording and start playing");
   stopTrig = addTrigger("Stop", "Tells the track to stop ");
   clearTrig = addTrigger("Clear", "Tells the track to clear it's content if got any");
   volume = addFloatParameter("Volume", "Set the volume of the track", defaultVolumeValue, 0, 1);
   mute = addBoolParameter("Mute", "Sets the track muted (or not.)", false);
-  solo = addBoolParameter("Solo", "Sets the track solo (or not.)", false);
+  solo = addBoolParameter("S", "Sets the track solo (or not.)", false);
   beatLength = addFloatParameter("Length", "length in bar", 0, 0, 200);
 
+  recPlayTrig->setCustomShortName("recOrPlay");
+  solo->setCustomShortName("solo");
 
   stateParameterString = addStringParameter("state", "track state", "");
   stateParameterStringSynchronizer = new AsyncTrackStateStringSynchroizer(stateParameterString);
@@ -55,7 +57,7 @@ lastVolume(0)
   stateParameterString->isControllableFeedbackOnly = true;
   stateParameterString->isSavable = false;
 
-
+  
 
   // post init
   volume->setValue(defaultVolumeValue);
@@ -73,7 +75,7 @@ void LooperTrack::processBlock(AudioBuffer<float>& buffer, MidiBuffer &) {
 
 
 
-  if(!loopSample.processNextBlock(buffer)){
+  if(!loopSample.processNextBlock(buffer,trackIdx)){
     LOG("Stopping, too many audio (more than 1mn)");
     setTrackState(STOPPED);
   }
@@ -92,8 +94,13 @@ void LooperTrack::processBlock(AudioBuffer<float>& buffer, MidiBuffer &) {
   if(loopSample.isStopping() ){
     newVolume = 0;
   }
-  for (int i = parentLooper->getTotalNumOutputChannels() - 1; i >= 0; --i) {
+  for (int i = 0; i < 2 && i < parentLooper->getTotalNumOutputChannels(); i++) {
     buffer.applyGainRamp(i, 0, buffer.getNumSamples(), lastVolume, newVolume);
+  }
+
+  if (parentLooper->getTotalNumOutputChannels() > this->trackIdx + 2)
+  {
+	  buffer.applyGainRamp(this->trackIdx+2, 0, buffer.getNumSamples(), lastVolume, newVolume);
   }
 
   lastVolume = newVolume;
@@ -263,7 +270,8 @@ void LooperTrack::handleStartOfRecording(){
         int samplesToGet = (int)(parentLooper->preDelayMs->intValue()*0.001f*parentLooper->getSampleRate());
         //        we need to advance because pat of the block may have be processed
         tm->advanceTime(samplesToGet);
-        if(samplesToGet>0){ loopSample.writeAudioBlock(parentLooper->streamAudioBuffer.getLastBlock(samplesToGet));}
+		const int channels[3] = { 0, 1, trackIdx + 2 };
+		if (samplesToGet > 0) { loopSample.writeAudioBlock(parentLooper->streamAudioBuffer.getLastBlock(samplesToGet)); }
         startRecBeat = 0;
       }
       else{

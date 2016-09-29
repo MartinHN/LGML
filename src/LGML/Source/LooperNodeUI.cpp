@@ -153,11 +153,12 @@ void LooperNodeContentUI::trackNumChanged(int num) {
 
 
 LooperNodeContentUI::TrackUI::TrackUI(LooperTrack * track) :track(track),
-isSelected(false)
+isSelected(false),
+vuMeter(VuMeter::Type::OUT)
 {
     recPlayButton = track->recPlayTrig->createBlinkUI();
     clearButton = track->clearTrig->createBlinkUI();
-    stopButton = track->stopTrig->createBlinkUI();
+    //stopButton = track->stopTrig->createBlinkUI();
     muteButton = track->mute->createToggle();
     muteButton->invertVisuals = true;
     soloButton = track->solo->createToggle();
@@ -169,14 +170,20 @@ isSelected(false)
     volumeSlider = track->volume->createSlider();
     volumeSlider->orientation = FloatSliderUI::VERTICAL;
     addAndMakeVisible(volumeSlider);
-    addAndMakeVisible(stopButton);
+    //addAndMakeVisible(stopButton);
     addAndMakeVisible(muteButton);
     addAndMakeVisible(soloButton);
+
+	vuMeter.targetChannel = track->trackIdx+2; //2 stereo channel then  1 channel per track
+	addAndMakeVisible(vuMeter);
+	track->getLooperNode()->addRMSChannelListener(&vuMeter);
 
 }
 
 LooperNodeContentUI::TrackUI::~TrackUI() {
     track->removeTrackListener(this);
+	track->getLooperNode()->removeRMSChannelListener(&vuMeter);
+
 }
 
 void LooperNodeContentUI::TrackUI::paint(Graphics & g) {
@@ -202,19 +209,18 @@ void LooperNodeContentUI::TrackUI::resized() {
     r.removeFromTop(25);//header
     int gap = 5;
     int step = r.getHeight()/6 - gap;
+	
+	recPlayButton->setBounds(r.removeFromBottom(20));
+	r.removeFromBottom(gap);
+	clearButton->setBounds(r.removeFromBottom(20));
+	r.removeFromBottom(gap);
     volumeSlider->setBounds(r.removeFromRight(step));
     r.reduce(5,0);
     muteButton->setBounds(r.removeFromTop(step));
     r.removeFromTop(gap);
     soloButton->setBounds(r.removeFromTop(step));
     r.removeFromTop(gap);
-    clearButton->setBounds(r.removeFromTop(step));
-    r.removeFromTop(gap);
-    stopButton->setBounds(r.removeFromTop(step));
-    r.removeFromTop(gap);
-    recPlayButton->setBounds(r);
-    r.removeFromTop(gap);
-
+	vuMeter.setBounds(r);
 }
 
 void LooperNodeContentUI::TrackUI::trackStateChangedAsync(const LooperTrack::TrackState & state) {

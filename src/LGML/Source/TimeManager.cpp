@@ -31,7 +31,7 @@ beatTimeGuessRange(.4,.85),
 BPMRange(10,600),
 _isLocked(false),
 settingTempoFromCandidate(false),
-currentBeatPeriod(.5),
+currentBeatPeriod((uint64).5), //@Martin : .5 as uint64 ??
 lastTaped(0),
 tapInRow(0),
 clickFader(10000,10000,true,1.0/3.0)
@@ -115,7 +115,7 @@ void TimeManager::audioDeviceIOCallback (const float** /*inputChannelData*/,
       double h = k*fmod((double)x+1.0/k,1.0);
       double env = clickFader.getCurrentFade()*jmax(0.0,h*exp(1.0-h));
 
-      float res = (env* cos(2.0*M_PI*carg ));
+      float res = (float)(env* cos(2.0*M_PI*carg ));
 
       for(int c = 0 ;c < numOutputChannels ; c++ ){outputChannelData[c][i] = res;}
 
@@ -252,17 +252,17 @@ void TimeManager::onContainerTriggerTriggered(Trigger * t) {
         //        const int maxTapInRow = 4;
         tapInRow = (tapInRow+1)%beatPerBar->intValue();
         const double alpha =.25;// 1. - tapInRow/maxTapInRow *.75 ;
-        currentBeatPeriod = alpha*delta + (1-alpha)*currentBeatPeriod;
+		currentBeatPeriod = (uint64)(alpha*delta + (1 - alpha)*currentBeatPeriod);
 
         //        int targetBeatInt = tapInRow;
 
         double targetBeat =getBeat();
         if(targetBeat - (int)targetBeat>0.5){targetBeat+=1;}
-        int targetBeatInt = floor(targetBeat);
+        int targetBeatInt = (int)floor(targetBeat);
 
         //        int targetBeatInt = ceil(targetBeat);
 
-        goToTime(targetBeatInt*currentBeatPeriod*44.1);//(deltaBeat*beatTimeInSample);
+        goToTime((uint64)(targetBeatInt*currentBeatPeriod*44.1));//(deltaBeat*beatTimeInSample);
 
         BPM->setValue(60000.0/currentBeatPeriod);
         DBG(targetBeatInt << "," << BPM->doubleValue());

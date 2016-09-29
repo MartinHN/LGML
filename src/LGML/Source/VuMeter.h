@@ -91,7 +91,7 @@ public:
 	{
 		if (targetChannel == channel && type == Type::IN) updateValue(rmsIn);
 	}
-	void channelRMSOutChanged(ConnectableNode *, float rmsOut, int channel) override
+	void channelRMSOutChanged(ConnectableNode * , float rmsOut, int channel) override
 	{
 		if (targetChannel == channel && type == Type::OUT) updateValue(rmsOut);
 	}

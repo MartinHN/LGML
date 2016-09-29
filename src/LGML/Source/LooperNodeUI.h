@@ -15,6 +15,7 @@
 #include "FloatSliderUI.h"
 #include "LooperNode.h"
 #include "NodeBaseContentUI.h"
+#include "VuMeter.h"
 
 class LooperNodeContentUI: public NodeBaseContentUI , public LooperNode::LooperListener
 {
@@ -56,10 +57,12 @@ public:
         Colour mainColour;
         ScopedPointer<TriggerBlinkUI> recPlayButton;
         ScopedPointer<TriggerBlinkUI> clearButton;
-        ScopedPointer<TriggerBlinkUI> stopButton;
+        //ScopedPointer<TriggerBlinkUI> stopButton;
+		VuMeter vuMeter;
 
         ScopedPointer<BoolToggleUI> muteButton;
         ScopedPointer<BoolToggleUI> soloButton;
+
 
         float headerHackHeight = .2f;
         float volumeWidth = .2f;

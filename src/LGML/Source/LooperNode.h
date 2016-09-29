@@ -64,16 +64,16 @@ public:
 	BoolParameter * isMonitoring;
 	IntParameter * numberOfTracks;
     IntParameter * selectTrack;
-  IntParameter * quantization;
+	IntParameter * quantization;
     IntParameter * preDelayMs;
-  BoolParameter * isOneShot;
-  BoolParameter*  firstTrackSetTempo;
-  Trigger * exportAudio;
+	BoolParameter * isOneShot;
+	BoolParameter*  firstTrackSetTempo;
+	Trigger * exportAudio;
 
 	AudioBuffer<float> bufferIn;
 	AudioBuffer<float>bufferOut;
 
-  int getQuantization();
+	int getQuantization();
 
 
 	void selectMe(LooperTrack * t);

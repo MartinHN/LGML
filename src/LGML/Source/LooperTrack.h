@@ -141,6 +141,8 @@ public:
 
   bool isSelected;
 
+  LooperNode * getLooperNode() { return parentLooper; }
+
 #if !LGML_UNIT_TESTS
 private:
 #endif
