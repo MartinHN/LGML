@@ -332,7 +332,7 @@ void NodeBase::updateRMS(bool isInput,const AudioBuffer<float>& buffer, float &t
 	float globalS = 0;
 
 	// @ben we need that (window of 64 sample cannot describe any accurate RMS level alone thus decay factor)
-	const double decayFactor = 0.95;
+	const double decayFactor = 0.6;
 	const float lowThresh = 0.0001f;
 
   

@@ -138,7 +138,7 @@ public:
 	void updateRMS(bool isInput,const AudioBuffer<float>& buffer, float &targetRMSValue, Array<float> &targetRMSValues);
 
 	const float alphaRMS = 0.05f;
-	const int samplesBeforeRMSUpdate = 512;
+	const int samplesBeforeRMSUpdate = 256;
 	int curSamplesForRMSInUpdate = 0;
 	int curSamplesForRMSOutUpdate = 0;
 	float globalRMSValueIn = 0.f;
