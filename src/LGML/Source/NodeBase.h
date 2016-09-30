@@ -142,8 +142,12 @@ public:
   Data * addInputData(const String &name, DataType type);
   Data * addOutputData(const String &name, DataType type);
 
+
   void removeInputData(const String &name);
   void removeOutputData(const String &name);
+	void removeAllInputDatas();
+	void removeAllOutputDatas();
+
 
   void inputDataChanged(Data *)
   {
