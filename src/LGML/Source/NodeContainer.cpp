@@ -71,6 +71,8 @@ void NodeContainer::clear(bool recreateContainerNodes)
   {
     removeParamProxy(proxyParams[0]);
   }
+
+  updateAudioGraph();
   if(!recreateContainerNodes)ConnectableNode::clear();
 
 }
@@ -85,7 +87,7 @@ ConnectableNode * NodeContainer::addNode(NodeType nodeType, const String &nodeNa
 ConnectableNode * NodeContainer::addNode(ConnectableNode * n, const String &nodeName)
 {
   nodes.add(n);
-  if(!isEngineLoadingFile()) n->setParentNodeContainer(this);
+  n->setParentNodeContainer(this);
 
   if (NodeContainer * nc = dynamic_cast<NodeContainer*>(n))
   {
@@ -100,7 +102,7 @@ ConnectableNode * NodeContainer::addNode(ConnectableNode * n, const String &node
   n->nameParam->setValue(getUniqueNameInContainer(targetName));
 
   addChildControllableContainer(n); //ControllableContainer
-  if(!isEngineLoadingFile()) nodeContainerListeners.call(&NodeContainerListener::nodeAdded, n);
+  nodeContainerListeners.call(&NodeContainerListener::nodeAdded, n);
   return n;
 }
 
@@ -125,7 +127,7 @@ bool NodeContainer::removeNode(ConnectableNode * n)
   if (n->type == NodeType::ContainerType) nodeContainers.removeFirstMatchingValue((NodeContainer*)n);
 
   //if(NodeManager::getInstanceWithoutCreating() != nullptr)
-  AudioProcessorGraph::removeNode(n->audioNode);
+//  jassert(AudioProcessorGraph::removeNode(n->audioNode));
 
   return true;
 }

@@ -140,7 +140,7 @@ void ConnectableNode::remove(bool askBeforeRemove)
 
 void ConnectableNode::clear()
 {
-  ControllableContainer::clear();
+//  ControllableContainer::clear();
 	//to override
 }
 
@@ -168,7 +168,9 @@ void ConnectableNode::addToAudioGraph(AudioProcessorGraph* g)
 
 void ConnectableNode::removeFromAudioGraph()
 {
-  parentNodeContainer->AudioProcessorGraph::removeNode(getAudioNode());
+  if(!parentNodeContainer)jassertfalse;
+  jassert(parentNodeContainer->AudioProcessorGraph::removeNode(getAudioNode()));
+
 
 
 }
