@@ -20,5 +20,5 @@ pipelines:
           - apt-get -y --force-yes install freeglut3-dev
           - apt-get -y --force-yes install libxcomposite-dev
           - cd src/LGML/Builds/LinuxMakefile/
-          - make config=Ubuntu
+          - make CONFIG=Ubuntu
           
