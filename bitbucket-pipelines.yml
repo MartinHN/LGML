@@ -10,15 +10,15 @@ pipelines:
     - step:
         script: # Modify the commands below to build your repository.
           - apt-get update
-          - apt-get install libfreetype6-dev
-          - apt-get install libx11-dev
-          - apt-get install libxinerama-dev
-          - apt-get install libxrandr-dev
-          - apt-get install libxcursor-dev
-          - apt-get install mesa-common-dev
-          - apt-get install libasound2-dev
-          - apt-get install freeglut3-dev
-          - apt-get install libxcomposite-dev
+          - apt-get -y --force-yes install libfreetype6-dev
+          - apt-get -y --force-yes install libx11-dev
+          - apt-get -y --force-yes install libxinerama-dev
+          - apt-get -y --force-yes install libxrandr-dev
+          - apt-get -y --force-yes install libxcursor-dev
+          - apt-get -y --force-yes install mesa-common-dev
+          - apt-get -y --force-yes install libasound2-dev
+          - apt-get -y --force-yes install freeglut3-dev
+          - apt-get -y --force-yes install libxcomposite-dev
           - cd src/LGML/Builds/LinuxMakefile/
-          - make
+          - make config=Ubuntu
           
