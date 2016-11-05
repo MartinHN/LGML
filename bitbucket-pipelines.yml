@@ -9,7 +9,15 @@ pipelines:
   default:
     - step:
         script: # Modify the commands below to build your repository.
-          - sh src/LGML/Scripts/Linux/InstallDeps.sh
+          - apt-get install libfreetype6-dev
+          - apt-get install libx11-dev
+          - apt-get install libxinerama-dev
+          - apt-get install libxrandr-dev
+          - apt-get install libxcursor-dev
+          - apt-get install mesa-common-dev
+          - apt-get install libasound2-dev
+          - apt-get install freeglut3-dev
+          - apt-get install libxcomposite-dev
           - cd src/LGML/Builds/LinuxMakefile/
           - make
           
