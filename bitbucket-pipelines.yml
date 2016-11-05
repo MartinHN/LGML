@@ -9,6 +9,7 @@ pipelines:
   default:
     - step:
         script: # Modify the commands below to build your repository.
+          - apt-get update
           - apt-get install libfreetype6-dev
           - apt-get install libx11-dev
           - apt-get install libxinerama-dev
