@@ -3,7 +3,7 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: tintamarajah/ubuntujuce:v1
+image: tintamarajah/ubuntu16juce:v1
 
 pipelines:
   default:
@@ -13,6 +13,6 @@ pipelines:
           - make CONFIG=Ubuntu
           - apt-get -y --force-yes install tar curl
           - tar -zcvf LGML.tar.gz --directory="build/" LGML
-          - curl -X PUT "${owncloudA}/remote.php/webdav/Tools/LGML/App-Dev/Linux/Ubuntu14.04/LGMLx86-64.tar.gz" --data-binary @"LGML.tar.gz" -u ${owncloudU}:${owncloudP} -k
+          - curl -X PUT "${owncloudA}/remote.php/webdav/Tools/LGML/App-Dev/Linux/Ubuntu14Tst/LGMLx86-64.tar.gz" --data-binary @"LGML.tar.gz" -u ${owncloudU}:${owncloudP} -k
 
           
