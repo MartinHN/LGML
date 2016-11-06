@@ -3,26 +3,16 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: gcc:6.1
+image: tintamarajah/ubuntujuce:v1
 
 pipelines:
   default:
     - step:
         script: # Modify the commands below to build your repository.
-          - apt-get update
-          - apt-get -y --force-yes install libfreetype6-dev
-          - apt-get -y --force-yes install libx11-dev
-          - apt-get -y --force-yes install libxinerama-dev
-          - apt-get -y --force-yes install libxrandr-dev
-          - apt-get -y --force-yes install libxcursor-dev
-          - apt-get -y --force-yes install mesa-common-dev
-          - apt-get -y --force-yes install libasound2-dev
-          - apt-get -y --force-yes install freeglut3-dev
-          - apt-get -y --force-yes install libxcomposite-dev
           - cd src/LGML/Builds/LinuxMakefile/
           - make CONFIG=Ubuntu
           - apt-get -y --force-yes install tar
           - tar -zcvf LGML.tar.gz --directory="build/" LGML
-          - curl -X PUT "${owncloudA}/remote.php/webdav/Tools/LGML/App-Dev/Linux/Ubuntu/x86-64/LGML.tar.gz" --data-binary @"LGML.tar.gz" -u ${owncloudU}:${owncloudP} -k
+          - curl -X PUT "${owncloudA}/remote.php/webdav/Tools/LGML/App-Dev/Linux/Ubuntu14.04/LGMLx86-64.tar.gz" --data-binary @"LGML.tar.gz" -u ${owncloudU}:${owncloudP} -k
 
           
