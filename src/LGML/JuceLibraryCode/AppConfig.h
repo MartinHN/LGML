@@ -18,6 +18,9 @@
 // [BEGIN_USER_CODE_SECTION]
 
 // (You can add your own code in this section, and the Projucer will not overwrite it)
+//#define JUCE_ENABLE_REPAINT_DEBUGGING 1
+
+#define JUCE_COREGRAPHICS_RENDER_WITH_MULTIPLE_PAINT_CALLS 1
 
 // [END_USER_CODE_SECTION]
 
