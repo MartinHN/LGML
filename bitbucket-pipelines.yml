@@ -13,6 +13,6 @@ pipelines:
           - make CONFIG=Ubuntu
           - apt-get -y --force-yes install tar curl
           - tar -zcvf LGML.tar.gz --directory="build/" LGML
-          - curl -X PUT "${owncloudA}/remote.php/webdav/Tools/LGML/App-Dev/Linux/Ubuntu14Tst/LGMLx86-64.tar.gz" --data-binary @"LGML.tar.gz" -u ${owncloudU}:${owncloudP} -k
+          - curl -X PUT "${owncloudA}/remote.php/webdav/Tools/LGML/App-Dev/Linux/TestCI/LGMLx86-64.tar.gz" --data-binary @"LGML.tar.gz" -u ${owncloudU}:${owncloudP} -k
 
           
