@@ -848,7 +848,7 @@
         <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="3"
                        targetName="LGML" linuxArchitecture="-march=armv6"/>
         <CONFIGURATION name="Ubuntu" libraryPath="/usr/X11R6/lib/" headerPath="../../External/serial/include&#10;../../Source"
-                       isDebug="1" optimisation="5" targetName="LGML"/>
+                       isDebug="1" optimisation="5" targetName="LGML" linuxArchitecture="-m64"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_osc" path="~/Dev/JUCE/modules"/>
