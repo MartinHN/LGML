@@ -9,7 +9,7 @@ pipelines:
   default:
     - step:
         script: # Modify the commands below to build your repository.
-          - ln -s /JUCE /root/Dev/JUCE
+          - ln -s /JUCE ${HOME}/Dev/JUCE
           - cd src/LGML/Builds/LinuxMakefile/
           - make CONFIG=Ubuntu -j2
           - apt-get install -y --no-install-recommends tar curl
