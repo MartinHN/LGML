@@ -9,10 +9,10 @@ pipelines:
   default:
     - step:
         script: # Modify the commands below to build your repository.
-          - mkdir ${HOME}/Dev
-          - ln -s /JUCE ${HOME}/Dev/JUCE
+          - uname -a
+          - mkdir ${HOME}/Dev && ln -s /JUCE ${HOME}/Dev/JUCE
           - cd src/LGML/Builds/LinuxMakefile/
-          - make CONFIG=Ubuntu -j2
+          - make CONFIG=Ubuntu -j4
           - apt-get install -y --no-install-recommends tar curl
           - tar -zcvf LGML.tar.gz --directory="build/" LGML
           - curl -X PUT "${owncloudA}/remote.php/webdav/Tools/LGML/App-Dev/Linux/TestCI/LGMLx86-64.tar.gz" --data-binary @"LGML.tar.gz" -u ${owncloudU}:${owncloudP} -k
