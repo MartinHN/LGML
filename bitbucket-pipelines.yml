@@ -10,6 +10,7 @@ pipelines:
     - step:
         script: # Modify the commands below to build your repository.
           - uname -a && lscpu
+          - apt-get install -y --no-install-recommends libjack-dev
           - mkdir ${HOME}/Dev && ln -s /JUCE ${HOME}/Dev/JUCE
           - cd src/LGML/Builds/LinuxMakefile/
           - make CONFIG=Ubuntu -j8

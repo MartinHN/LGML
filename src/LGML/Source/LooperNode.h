@@ -60,6 +60,9 @@ public:
   Trigger * clearAllTrig;
   Trigger * stopAllTrig;
 
+  Trigger * selectNextTrig;
+  Trigger * selectPrevTrig;
+
   FloatParameter * volumeSelected;
   BoolParameter * isMonitoring;
   IntParameter * numberOfTracks;
@@ -72,6 +75,9 @@ public:
   BoolParameter * waitForOnset;
   FloatParameter * onsetThreshold;
   BoolParameter * outputAllTracksSeparately;
+  BoolParameter * autoNextTrackAfterRecord;
+  BoolParameter * autoClearPreviousIfEmpty;
+
   Trigger * exportAudio;
 
   AudioBuffer<float> bufferIn;

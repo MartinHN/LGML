@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="a1hJPO" name="LGML" projectType="guiapp" version="1.0.5"
+<JUCERPROJECT id="a1hJPO" name="LGML" projectType="guiapp" version="1.1.1"
               bundleIdentifier="org.anic.orchestra.LGML" includeBinaryInAppConfig="1"
               jucerVersion="4.3.0" companyName="Organic Orchestra" companyWebsite="http://www.organic-orchestra.com">
   <MAINGROUP id="RYpQgZ" name="LGML">
@@ -817,7 +817,7 @@
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
                        isDebug="0" optimisation="3" targetName="LGML_x64" headerPath="D:\Documents\Ressources\SDKs\ASIOSDK2.3\common&#10;..\..\External\serial\include"/>
         <CONFIGURATION name="Debug 32bit" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="LGML_86_Debug" headerPath="D:\Documents\Ressources\SDKs\ASIOSDK2.3\common&#10;..\..\External\serial\include"/>
+                       isDebug="1" optimisation="1" targetName="LGML_x86_Debug" headerPath="D:\Documents\Ressources\SDKs\ASIOSDK2.3\common&#10;..\..\External\serial\include"/>
         <CONFIGURATION name="Release 32bit" winWarningLevel="4" generateManifest="1"
                        winArchitecture="32-bit" isDebug="0" optimisation="3" targetName="LGML_x86"
                        headerPath="D:\Documents\Ressources\SDKs\ASIOSDK2.3\common&#10;..\..\External\serial\include"
@@ -887,7 +887,8 @@
   <JUCEOPTIONS JUCE_PLUGINHOST_VST="enabled" JUCE_PLUGINHOST_VST3="enabled"
                JUCE_PLUGINHOST_AU="enabled" JUCE_WEB_BROWSER="disabled" JUCE_ASIO="enabled"
                JUCE_WASAPI="enabled" JUCE_DIRECTSOUND="enabled" JUCE_LOG_ASSERTIONS="enabled"
-               JUCE_USE_CDREADER="disabled" JUCE_USE_CDBURNER="disabled"/>
+               JUCE_USE_CDREADER="disabled" JUCE_USE_CDBURNER="disabled" JUCE_ALSA="enabled"
+               JUCE_JACK="enabled"/>
   <LIVE_SETTINGS>
     <WINDOWS headerPath="..\..\External\serial\include"/>
     <OSX/>
