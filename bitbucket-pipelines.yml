@@ -16,7 +16,7 @@ pipelines:
           - make CONFIG=Ubuntu -j8
           - apt-get install -y --no-install-recommends tar curl
           - tar -zcvf LGML.tar.gz --directory="build/" LGML
-          - LGMLversion=$(python ../../Scripts/PyUtils/ProJucerUtils.py)
-          - curl -X PUT "${owncloudA}/remote.php/webdav/Tools/LGML/App-Dev/Linux/Ubuntu16.04/LGML64${LGMLversion}_bleedingEdge.tar.gz" --data-binary @"LGML.tar.gz" -u ${owncloudU}:${owncloudP} -k
+          - LGMLversion=$(python ../../Scripts/PyUtils/ProJucerUtils.py) && echo ${LGMLversion}
+          - curl -X PUT "${owncloudA}/remote.php/webdav/Tools/LGML/App-Dev/Linux/Ubuntu16.04/LGML_v${LGMLversion}_bleedingEdge_x64.tar.gz" --data-binary @"LGML.tar.gz" -u ${owncloudU}:${owncloudP} -k
 
           
