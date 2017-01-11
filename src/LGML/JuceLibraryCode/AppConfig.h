@@ -22,11 +22,6 @@
 
 #define JUCE_COREGRAPHICS_RENDER_WITH_MULTIPLE_PAINT_CALLS 1
 
-//#define JUCE_ENABLE_REPAINT_DEBUGGING 1
-#define JUCE_DISABLE_JUCE_VERSION_PRINTING 1
-//#define JUCE_COREGRAPHICS_RENDER_WITH_MULTIPLE_PAINT_CALLS 1
-
-
 // [END_USER_CODE_SECTION]
 
 //==============================================================================

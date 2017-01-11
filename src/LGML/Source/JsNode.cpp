@@ -73,12 +73,6 @@ void JsNode::onContainerParameterChanged(Parameter * p) {
 		loadFile(scriptPath->stringValue());
 	} else if (p == nameParam) {
 		setNamespaceName("node." + shortName);
-	} else if (p == enabledParam)
-	{
-		if (enabledParam->boolValue())
-		{
-			startUpdateTimerIfNeeded();
-		} else JsEnvironment::stopTimer(1);
 	}
 }
 

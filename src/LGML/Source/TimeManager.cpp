@@ -40,7 +40,7 @@ hasJumped(false)
 {
 
   BPM = addFloatParameter("bpm","current BPM",120,(float)BPMRange.getStart(), (float)BPMRange.getEnd());
-  playState = addBoolParameter("Play_Stop", "play or stop global transport", false);
+  playState = addBoolParameter("PlayStop", "play or stop global transport", false);
   BPMLocked = addBoolParameter("bpmLocked", "bpm is locked by somebody", false);
   BPMLocked->isControllableFeedbackOnly = true;
   isSettingTempo = addBoolParameter("isSettingTempo", "is someone setting tempo (recording first loop)", false);
@@ -353,7 +353,7 @@ double TimeManager::setBPMForLoopLength(uint64 time,int granularity){
     beatTime = beatInSample*1.0/sampleRate;
   }
   settingTempoFromCandidate = true;
-  BPM->setValue(60.0/beatTime);
+  BPM->setValue(60.0/beatTime,false,false,true);
   settingTempoFromCandidate = false;
   // force exact beatTimeInSample
   beatTimeInSample = beatInSample;

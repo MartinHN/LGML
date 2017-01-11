@@ -1,4 +1,3 @@
-
 import os;
 import json;
 import urllib;
@@ -110,7 +109,7 @@ if __name__ == "__main__":
 	for p in localExportPath2:
 		sh("cp "+dmgPath+" "+p+generateProductBaseName()+".dmg")
 	if sendToOwncloud:
-		ownCloudPath = "Tools/LGML/App-Dev/OSX/"+generateProductBaseName()+".dmg"
+		ownCloudPath = "Tools/LGML/App-Dev/OSX/1.x-2.0/"+generateProductBaseName()+".dmg"
 		sendToOwnCloud(localPath+".dmg",urllib.pathname2url(ownCloudPath))
 	# gitCommit()
 

@@ -167,11 +167,7 @@ void JavascriptController::onContainerParameterChanged(Parameter * p) {
         loadFile(jsPath->stringValue());
     }
     else if(p==enabledParam){
-
-		if (enabledParam->boolValue())
-		{
-			startUpdateTimerIfNeeded();
-		}else stopTimer(1);
+     setTimerState(onUpdateTimer, enabledParam->boolValue());
     }
 };
 
@@ -209,8 +205,6 @@ void JavascriptController::clearNamespace(){
 
 
 Identifier JsOSCListener::oscReceivedCallbackId("onOSC");
-
-
 
 
 
