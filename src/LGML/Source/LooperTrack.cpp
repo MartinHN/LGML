@@ -85,7 +85,10 @@ void LooperTrack::processBlock(AudioBuffer<float>& buffer, MidiBuffer &) {
   TimeManager * tm = TimeManager::getInstance();
   uint64 curTime = tm->getTimeInSample();
   int offset = startPlayBeat*tm->beatTimeInSample;
-  if(getQuantization()==0) curTime = loopSample.getGlobalPlayPos();
+    if(getQuantization()==0) {
+     curTime = loopSample.getGlobalPlayPos();
+        offset = 0;
+    }
   else if( !loopSample.isOrWasRecording() &&  curTime<offset){
     float negativeStartPlayBeat = startPlayBeat/beatLength->doubleValue();
     negativeStartPlayBeat = startPlayBeat - beatLength->doubleValue()*ceil(negativeStartPlayBeat);
@@ -158,6 +161,7 @@ TimeManager * tm = TimeManager::getInstance();
       loopSample.setState( PlayableBuffer::BUFFER_STOPPED);
       desiredState = STOPPED;
       cleanAllQuantizeNeedles();
+        
       stateChanged = true;
       if(isMasterTempoTrack())releaseMasterTrack();
     }
@@ -244,10 +248,14 @@ TimeManager * tm = TimeManager::getInstance();
 
       desiredState =  PLAYING;
       loopSample.setState( PlayableBuffer::BUFFER_PLAYING,firstPart);
+      if(getQuantization()==0){
+        loopSample.setPlayNeedle(0);
+      }
       startPlayBeat = TimeManager::getInstance()->getBeatInNextSamples(firstPart);
 
       // stop oneShot if needed
       if(parentLooper->isOneShot->boolValue() ){
+
         quantizedPlayEnd = quantizedPlayStart + loopSample.getRecordedLength() - loopSample.getNumSampleFadeOut();
       }
 
