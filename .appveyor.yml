@@ -1,30 +1,51 @@
 version: 1.0.{build}
 branches:
   only:
-  - feature/ci
+  - master
+  - ci/all
+  - ci/appveyor
+
 environment:
   ASIOSDK: C:\projects\ASIOSDK2.3
+  OWNCLOUDPASS:
+    secure: WMAPpQn8AuyEvSENma5wNQhsEYAxz87oJhgxiLRvtXg=
+  OWNCLOUDUSER:
+    secure: hGxoNrHEyHNyt12RjZ9cOQ==
+  image: Visual Studio 2015
   matrix:
     - platform: Win32
-      configuration: Debug_32bit
+      configuration: Release32
     - platform: x64
-      configuration: Debug
+      configuration: Release
 
 before_build:
-  ps: |
-    echo "submodule"
-    git submodule -q update --init --recursive --remote
-    cd C:\projects\lgml\third_party\rubberband
-    echo 'build rubberband'
-    ls C:\projects\lgml\third_party\rubberband
-    git remote -v
-    msbuild C:\projects\lgml\third_party\rubberband\rubberband-library.sln /p:Configuration=Debug /m:4
-    wget https://codeload.github.com/WeAreROLI/JUCE/zip/master -OutFile JUCE.zip
-    7z x JUCE.zip -o"C:\projects" -y
-    Rename-Item -path ‘C:\projects\JUCE-master’ -newName ‘JUCE’
-    wget http://www.steinberg.net/sdk_downloads/asiosdk2.3.zip -OutFile ASIO_SDK.zip
-    7z x ASIO_SDK.zip -o"C:\projects" -y
+  - ps: |
+      echo "submodule"
+      git submodule -q update --init --recursive
+      cd C:\projects\lgml\third_party\rubberband
+      echo 'building rubberband'
+      msbuild C:\projects\lgml\third_party\rubberband\rubberband-library.sln /p:Configuration=Release /m:4
+      echo 'dowloading JUCE'
+      wget https://codeload.github.com/WeAreROLI/JUCE/zip/master -OutFile JUCE.zip
+      7z x JUCE.zip -o"C:\projects" -y
+      Rename-Item -path ‘C:\projects\JUCE-master’ -newName ‘JUCE’
+      echo 'downloading ASIOSDK'
+      wget http://www.steinberg.net/sdk_downloads/asiosdk2.3.zip -OutFile ASIO_SDK.zip
+      7z x ASIO_SDK.zip -o"C:\projects" -y
+
+
+# after_build:
+#   cmd: 7z a %APPVEYOR_BUILD_FOLDER%\LGML_%PLATFORM%.zip %APPVEYOR_BUILD_FOLDER%\Builds\VisualStudio2015\%PLATFORM%\%CONFIGURATION%\App\*.exe
+
+deploy_script:
+  - pip install future requests
+  - cmd: python %APPVEYOR_BUILD_FOLDER%\Scripts\buildScript.py --configure --os=windows --configuration=%CONFIGURATION% --arch=%PLATFORM%  --exportpath=%APPVEYOR_BUILD_FOLDER%
+  - cmd: python %APPVEYOR_BUILD_FOLDER%\Scripts\buildScript.py --package --export
+
+artifacts:
+  - path: '*.zip'
 
 build:
   project: Builds/VisualStudio2015/LGML.sln
   verbosity: minimal
+  parallel: true
